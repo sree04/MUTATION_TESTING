@@ -1,0 +1,1484 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=windows-1252"> 
+  <title>Coverage Report > App</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">st</a>
+</div>
+
+<h1>Coverage Summary for Class: App (st)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">App</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98%
+  </span>
+  <span class="absValue">
+    (48/49)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95.2%
+  </span>
+  <span class="absValue">
+    (628/660)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package st;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+<b class="fc">&nbsp;public class App {</b>
+&nbsp;
+&nbsp;	int rabinKarp(String pattern, String text, int prime) {
+<b class="fc">&nbsp;		int base = 256; // Number of possible characters in the input</b>
+<b class="fc">&nbsp;		int patternLength = pattern.length();</b>
+<b class="fc">&nbsp;		int textLength = text.length();</b>
+<b class="fc">&nbsp;		int patternHash = 0; // Hash value for the pattern</b>
+<b class="fc">&nbsp;		int windowHash = 0;</b>
+<b class="fc">&nbsp;		int hashFactor = 1;</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; patternLength - 1; i++) {</b>
+<b class="fc">&nbsp;			hashFactor = (hashFactor * base) % prime;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		for (int i = 0; i &lt; patternLength; i++) {</b>
+<b class="fc">&nbsp;			patternHash = (base * patternHash + pattern.charAt(i)) % prime;</b>
+<b class="fc">&nbsp;			windowHash = (base * windowHash + text.charAt(i)) % prime;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		for (int i = 0; i &lt;= textLength - patternLength; i++) {</b>
+<b class="fc">&nbsp;			if (patternHash == windowHash) {</b>
+<b class="fc">&nbsp;				boolean match = true;</b>
+<b class="fc">&nbsp;				for (int j = 0; j &lt; patternLength; j++) {</b>
+<b class="fc">&nbsp;					if (text.charAt(i + j) != pattern.charAt(j)) {</b>
+<b class="nc">&nbsp;						match = false;</b>
+<b class="nc">&nbsp;						break;</b>
+&nbsp;					}
+&nbsp;				}
+<b class="fc">&nbsp;				if (match) {</b>
+<b class="fc">&nbsp;					return i;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			if (i &lt; textLength - patternLength) {</b>
+<b class="fc">&nbsp;				windowHash = (base * (windowHash - text.charAt(i) * hashFactor) + text.charAt(i + patternLength)) % prime;</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;				if (windowHash &lt; 0) {</b>
+<b class="fc">&nbsp;					windowHash += prime;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	int ZAlgorithm(String text, String pattern) {
+&nbsp;		// Create concatenated string &quot;P$T&quot;
+<b class="fc">&nbsp;		String concat = pattern + &quot;$&quot; + text;</b>
+<b class="fc">&nbsp;		int l = concat.length();</b>
+<b class="fc">&nbsp;		int[] Z = new int[l];</b>
+&nbsp;
+&nbsp;		// Initialize the Z array
+<b class="fc">&nbsp;		int L = 0, R = 0;</b>
+&nbsp;
+&nbsp;		// Calculate Z array for the concatenated string
+<b class="fc">&nbsp;		for (int i = 1; i &lt; l; i++) {</b>
+<b class="fc">&nbsp;			if (i &gt; R) {</b>
+&nbsp;				// If we&#39;re outside the current [L, R] range, start fresh
+<b class="fc">&nbsp;				L = R = i;</b>
+<b class="fc">&nbsp;				while (R &lt; l &amp;&amp; concat.charAt(R) == concat.charAt(R - L)) {</b>
+<b class="fc">&nbsp;					R++;</b>
+&nbsp;				}
+<b class="fc">&nbsp;				Z[i] = R - L;</b>
+<b class="fc">&nbsp;				R--;</b>
+&nbsp;			} else {
+<b class="fc">&nbsp;				int k = i - L;</b>
+<b class="fc">&nbsp;				if (Z[k] &lt; R - i + 1) {</b>
+&nbsp;					// Z[k] is valid within the range [L, R]
+<b class="fc">&nbsp;					Z[i] = Z[k];</b>
+&nbsp;				} else {
+&nbsp;					// Need to manually extend the match beyond R
+<b class="fc">&nbsp;					L = i;</b>
+<b class="fc">&nbsp;					while (R &lt; l &amp;&amp; concat.charAt(R) == concat.charAt(R - L)) {</b>
+<b class="fc">&nbsp;						R++;</b>
+&nbsp;					}
+<b class="fc">&nbsp;					Z[i] = R - L;</b>
+<b class="fc">&nbsp;					R--;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// Now search for the pattern&#39;s occurrence using the Z array
+<b class="fc">&nbsp;		for (int i = 0; i &lt; l; i++) {</b>
+<b class="fc">&nbsp;			if (Z[i] == pattern.length()) {</b>
+&nbsp;				// Match found at position i - pattern.length() - 1 in the original text
+<b class="fc">&nbsp;				return i - pattern.length() - 1;</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// If no match is found, return -1
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int binarySearch(int[] arr, int target) {
+<b class="fc">&nbsp;		int left = 0;</b>
+<b class="fc">&nbsp;		int right = arr.length - 1;</b>
+&nbsp;
+<b class="fc">&nbsp;		while (left &lt;= right) {</b>
+<b class="fc">&nbsp;			int mid = left + (right - left) / 2;</b>
+<b class="fc">&nbsp;			if (arr[mid] == target) {</b>
+<b class="fc">&nbsp;				return mid;</b>
+&nbsp;			}
+<b class="fc">&nbsp;			if (arr[mid] &gt; target) {</b>
+<b class="nc">&nbsp;				right = mid - 1;</b>
+&nbsp;			}
+&nbsp;			else {
+<b class="fc">&nbsp;				left = mid + 1;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		}</b>
+&nbsp;
+&nbsp;		// Target not found
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int linearSearch(int[] arr, int target) {
+<b class="fc">&nbsp;		for (int i = 0; i &lt; arr.length; i++) {</b>
+<b class="fc">&nbsp;			if (arr[i] == target) {</b>
+<b class="fc">&nbsp;				return i;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public int KMPSearch(String pattern, String text) {
+<b class="fc">&nbsp;		int patternLength = pattern.length();</b>
+<b class="fc">&nbsp;		int textLength = text.length();</b>
+&nbsp;
+&nbsp;		// Compute the LPS (Longest Prefix Suffix) array
+<b class="fc">&nbsp;		int[] lps = new int[patternLength];</b>
+<b class="fc">&nbsp;		int prefixLength = 0;</b>
+<b class="fc">&nbsp;		lps[0] = 0;</b>
+&nbsp;
+&nbsp;		// Build the LPS array
+<b class="fc">&nbsp;		for (int i = 1; i &lt; patternLength; ) {</b>
+<b class="fc">&nbsp;			if (pattern.charAt(i) == pattern.charAt(prefixLength)) {</b>
+<b class="fc">&nbsp;				prefixLength++;</b>
+<b class="fc">&nbsp;				lps[i] = prefixLength;</b>
+<b class="fc">&nbsp;				i++;</b>
+&nbsp;			} else {
+<b class="fc">&nbsp;				if (prefixLength != 0) {</b>
+<b class="fc">&nbsp;					prefixLength = lps[prefixLength - 1];</b>
+&nbsp;				} else {
+<b class="fc">&nbsp;					lps[i] = 0;</b>
+<b class="fc">&nbsp;					i++;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// Search for the pattern in the text
+<b class="fc">&nbsp;		int textIndex = 0, patternIndex = 0;</b>
+<b class="fc">&nbsp;		while (textIndex &lt; textLength) {</b>
+<b class="fc">&nbsp;			if (pattern.charAt(patternIndex) == text.charAt(textIndex)) {</b>
+<b class="fc">&nbsp;				textIndex++;</b>
+<b class="fc">&nbsp;				patternIndex++;</b>
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			if (patternIndex == patternLength) {</b>
+<b class="fc">&nbsp;				return textIndex - patternIndex; // Match found</b>
+<b class="fc">&nbsp;			} else if (textIndex &lt; textLength &amp;&amp; pattern.charAt(patternIndex) != text.charAt(textIndex)) {</b>
+<b class="fc">&nbsp;				if (patternIndex != 0) {</b>
+<b class="fc">&nbsp;					patternIndex = lps[patternIndex - 1];</b>
+&nbsp;				} else {
+<b class="fc">&nbsp;					textIndex++;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return -1; // No match found</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	int LCS(char[] X, char[] Y, int m, int n) {
+<b class="fc">&nbsp;		int L[][] = new int[m + 1][n + 1];</b>
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * Following steps build L[m+1][n+1] in bottom up fashion. Note
+&nbsp;		 * that L[i][j] contains length of LCS of X[0..i-1] and Y[0..j-1]
+&nbsp;		 */
+<b class="fc">&nbsp;		for (int i = 0; i &lt;= m; i++) {</b>
+<b class="fc">&nbsp;			for (int j = 0; j &lt;= n; j++) {</b>
+<b class="fc">&nbsp;				if (i == 0 || j == 0)</b>
+<b class="fc">&nbsp;					L[i][j] = 0;</b>
+<b class="fc">&nbsp;				else if (X[i - 1] == Y[j - 1])</b>
+<b class="fc">&nbsp;					L[i][j] = L[i - 1][j - 1] + 1;</b>
+&nbsp;				else
+<b class="fc">&nbsp;					L[i][j] = max(L[i - 1][j], L[i][j - 1]);</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return L[m][n];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	/* Utility function to get max of 2 integers */
+&nbsp;	int max(int a, int b) {
+<b class="fc">&nbsp;		return (a &gt; b) ? a : b;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int lps(char seq[], int i, int j) {
+&nbsp;		// Base Case 1: If there is only 1 character
+<b class="fc">&nbsp;		if (i == j) {</b>
+<b class="fc">&nbsp;			return 1;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Base Case 2: If there are only 2 characters and both are same
+<b class="fc">&nbsp;		if (seq[i] == seq[j] &amp;&amp; i + 1 == j) {</b>
+<b class="nc">&nbsp;			return 2;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// If the first and last characters match
+<b class="fc">&nbsp;		if (seq[i] == seq[j]) {</b>
+<b class="fc">&nbsp;			return lps(seq, i + 1, j - 1) + 2;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// If the first and last characters do not match
+<b class="fc">&nbsp;		return max(lps(seq, i, j - 1), lps(seq, i + 1, j));</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int superSeq(String X, String Y, int n, int m, int[][] lookup) {
+&nbsp;
+<b class="fc">&nbsp;		if (m == 0 || n == 0) {</b>
+<b class="fc">&nbsp;			lookup[n][m] = n + m;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (lookup[n][m] == 0)</b>
+<b class="fc">&nbsp;			if (X.charAt(n - 1) == Y.charAt(m - 1)) {</b>
+<b class="fc">&nbsp;				lookup[n][m] = superSeq(X, Y, n - 1, m - 1, lookup)</b>
+&nbsp;						+ 1;
+&nbsp;			}
+&nbsp;
+&nbsp;			else {
+<b class="fc">&nbsp;				lookup[n][m] = Math.min(</b>
+<b class="fc">&nbsp;						superSeq(X, Y, n - 1, m, lookup) + 1,</b>
+<b class="fc">&nbsp;						superSeq(X, Y, n, m - 1, lookup) + 1);</b>
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;		return lookup[n][m];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int maxCommStr(String s1, String s2) {
+<b class="fc">&nbsp;		int m = s1.length();</b>
+<b class="fc">&nbsp;		int n = s2.length();</b>
+<b class="fc">&nbsp;		int[][] dp = new int[m + 1][n + 1];</b>
+<b class="fc">&nbsp;		int maxLength = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;		for (int i = 1; i &lt;= m; i++) {</b>
+<b class="fc">&nbsp;			for (int j = 1; j &lt;= n; j++) {</b>
+<b class="fc">&nbsp;				if (s1.charAt(i - 1) == s2.charAt(j - 1)) {</b>
+<b class="fc">&nbsp;					dp[i][j] = dp[i - 1][j - 1] + 1;</b>
+<b class="fc">&nbsp;					maxLength = Math.max(maxLength, dp[i][j]);</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return maxLength;</b>
+&nbsp;	}
+&nbsp;	String longestCommonPrefix(String[] strings) {
+<b class="fc">&nbsp;		int length = strings.length;</b>
+&nbsp;
+&nbsp;		// Return an empty string if the array is empty
+<b class="fc">&nbsp;		if (length == 0) {</b>
+<b class="nc">&nbsp;			return &quot;&quot;;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// If the array has only one string, return it
+<b class="fc">&nbsp;		if (length == 1) {</b>
+<b class="fc">&nbsp;			return strings[0];</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Sort the array of strings to bring lexicographically similar strings closer
+<b class="fc">&nbsp;		Arrays.sort(strings);</b>
+&nbsp;
+&nbsp;		// Find the smallest length between the first and last strings in the sorted array
+<b class="fc">&nbsp;		int minLength = Math.min(strings[0].length(), strings[length - 1].length());</b>
+&nbsp;
+&nbsp;		// Compare characters of the first and last strings up to the minimum length
+<b class="fc">&nbsp;		int index = 0;</b>
+<b class="fc">&nbsp;		while (index &lt; minLength &amp;&amp; strings[0].charAt(index) == strings[length - 1].charAt(index)) {</b>
+<b class="fc">&nbsp;			index++;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Extract the substring from the first string up to the matched index
+<b class="fc">&nbsp;		return strings[0].substring(0, index);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int LVP(String s, int n) {
+&nbsp;
+&nbsp;		// Variables for left and right
+&nbsp;		// counter maxlength to store
+&nbsp;		// the maximum length found so far
+<b class="fc">&nbsp;		int left = 0, right = 0;</b>
+<b class="fc">&nbsp;		int maxlength = 0;</b>
+&nbsp;
+&nbsp;		// Iterating the string from left to right
+<b class="fc">&nbsp;		for (int i = 0; i &lt; n; i++) {</b>
+&nbsp;
+&nbsp;			// If &quot;(&quot; is encountered, then
+&nbsp;			// left counter is incremented
+&nbsp;			// else right counter is incremented
+<b class="fc">&nbsp;			if (s.charAt(i) == &#39;(&#39;)</b>
+<b class="fc">&nbsp;				left++;</b>
+&nbsp;			else
+<b class="fc">&nbsp;				right++;</b>
+&nbsp;
+&nbsp;			// Whenever left is equal to right,
+&nbsp;			// it signifies that the subsequence
+&nbsp;			// is valid and
+<b class="fc">&nbsp;			if (left == right)</b>
+<b class="nc">&nbsp;				maxlength = Math.max(maxlength,</b>
+&nbsp;						2 * right);
+&nbsp;
+&nbsp;			// Resetting the counters when the
+&nbsp;			// subsequence becomes invalid
+<b class="fc">&nbsp;			else if (right &gt; left)</b>
+<b class="fc">&nbsp;				left = right = 0;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		left = right = 0;</b>
+&nbsp;
+&nbsp;		// Iterating the string from right to left
+<b class="fc">&nbsp;		for (int i = n - 1; i &gt;= 0; i--) {</b>
+&nbsp;
+&nbsp;			// If &quot;(&quot; is encountered, then
+&nbsp;			// left counter is incremented
+&nbsp;			// else right counter is incremented
+<b class="fc">&nbsp;			if (s.charAt(i) == &#39;(&#39;)</b>
+<b class="fc">&nbsp;				left++;</b>
+&nbsp;			else
+<b class="fc">&nbsp;				right++;</b>
+&nbsp;
+&nbsp;			// Whenever left is equal to right,
+&nbsp;			// it signifies that the subsequence
+&nbsp;			// is valid and
+<b class="fc">&nbsp;			if (left == right)</b>
+<b class="fc">&nbsp;				maxlength = Math.max(maxlength,</b>
+&nbsp;						2 * left);
+&nbsp;
+&nbsp;			// Resetting the counters when the
+&nbsp;			// subsequence becomes invalid
+<b class="fc">&nbsp;			else if (left &gt; right)</b>
+<b class="fc">&nbsp;				left = right = 0;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return maxlength;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int EditDistance(String s1, String s2, int n, int m, int[][] dp) {
+&nbsp;
+&nbsp;		// If any String is empty,
+&nbsp;		// return the remaining characters of other String
+<b class="fc">&nbsp;		if (n == 0)</b>
+<b class="fc">&nbsp;			return m;</b>
+<b class="fc">&nbsp;		if (m == 0)</b>
+<b class="fc">&nbsp;			return n;</b>
+&nbsp;
+&nbsp;		// To check if the recursive tree
+&nbsp;		// for given n &amp; m has already been executed
+<b class="fc">&nbsp;		if (dp[n][m] != -1)</b>
+<b class="fc">&nbsp;			return dp[n][m];</b>
+&nbsp;
+&nbsp;		// If characters are equal, execute
+&nbsp;		// recursive function for n-1, m-1
+<b class="fc">&nbsp;		if (s1.charAt(n - 1) == s2.charAt(m - 1)) {</b>
+<b class="fc">&nbsp;			return dp[n][m] = EditDistance(s1, s2, n - 1, m - 1, dp);</b>
+&nbsp;		}
+&nbsp;		// If characters are not equal, we need to
+&nbsp;		// find the minimum cost out of all 3 operations.
+&nbsp;		else {
+&nbsp;
+&nbsp;			int insert, del, replace; // temp variables
+&nbsp;
+<b class="fc">&nbsp;			insert = EditDistance(s1, s2, n, m - 1, dp);</b>
+<b class="fc">&nbsp;			del = EditDistance(s1, s2, n - 1, m, dp);</b>
+<b class="fc">&nbsp;			replace = EditDistance(s1, s2, n - 1, m - 1, dp);</b>
+<b class="fc">&nbsp;			return dp[n][m] = 1 + Math.min(insert, Math.min(del, replace));</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	String ManachersAlgorithm(String text) {
+<b class="fc">&nbsp;		int N = text.length();</b>
+<b class="fc">&nbsp;		if (N == 0)</b>
+<b class="nc">&nbsp;			return null;</b>
+<b class="fc">&nbsp;		N = 2 * N + 1; // Position count</b>
+<b class="fc">&nbsp;		int[] L = new int[N + 1]; // LPS Length Array</b>
+<b class="fc">&nbsp;		L[0] = 0;</b>
+<b class="fc">&nbsp;		L[1] = 1;</b>
+<b class="fc">&nbsp;		int C = 1; // centerPosition</b>
+<b class="fc">&nbsp;		int R = 2; // centerRightPosition</b>
+<b class="fc">&nbsp;		int i = 0; // currentRightPosition</b>
+&nbsp;		int iMirror; // currentLeftPosition
+<b class="fc">&nbsp;		int maxLPSLength = 0;</b>
+<b class="fc">&nbsp;		int maxLPSCenterPosition = 0;</b>
+<b class="fc">&nbsp;		int start = -1;</b>
+<b class="fc">&nbsp;		int end = -1;</b>
+<b class="fc">&nbsp;		int diff = -1;</b>
+&nbsp;
+&nbsp;		// Uncomment it to print LPS Length array
+&nbsp;		// printf(&quot;%d %d &quot;, L[0], L[1]);
+<b class="fc">&nbsp;		for (i = 2; i &lt; N; i++) {</b>
+&nbsp;
+&nbsp;			// get currentLeftPosition iMirror
+&nbsp;			// for currentRightPosition i
+<b class="fc">&nbsp;			iMirror = 2 * C - i;</b>
+<b class="fc">&nbsp;			L[i] = 0;</b>
+<b class="fc">&nbsp;			diff = R - i;</b>
+&nbsp;
+&nbsp;			// If currentRightPosition i is within
+&nbsp;			// centerRightPosition R
+<b class="fc">&nbsp;			if (diff &gt; 0)</b>
+<b class="fc">&nbsp;				L[i] = Math.min(L[iMirror], diff);</b>
+&nbsp;
+<b class="fc">&nbsp;			while (((i + L[i]) + 1 &lt; N &amp;&amp; (i - L[i]) &gt; 0) &amp;&amp;</b>
+&nbsp;					(((i + L[i] + 1) % 2 == 0) ||
+<b class="fc">&nbsp;							(text.charAt((i + L[i] + 1) / 2) == text.charAt((i - L[i] - 1) / 2)))) {</b>
+<b class="fc">&nbsp;				L[i]++;</b>
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			if (L[i] &gt; maxLPSLength) // Track maxLPSLength</b>
+&nbsp;			{
+<b class="fc">&nbsp;				maxLPSLength = L[i];</b>
+<b class="fc">&nbsp;				maxLPSCenterPosition = i;</b>
+&nbsp;			}
+&nbsp;
+&nbsp;			// If palindrome centered at currentRightPosition i
+&nbsp;			// expand beyond centerRightPosition R,
+&nbsp;			// adjust centerPosition C based on expanded palindrome.
+<b class="fc">&nbsp;			if (i + L[i] &gt; R) {</b>
+<b class="fc">&nbsp;				C = i;</b>
+<b class="fc">&nbsp;				R = i + L[i];</b>
+&nbsp;			}
+&nbsp;
+&nbsp;			// Uncomment it to print LPS Length array
+&nbsp;			// printf(&quot;%d &quot;, L[i]);
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		start = (maxLPSCenterPosition - maxLPSLength) / 2;</b>
+<b class="fc">&nbsp;		end = start + maxLPSLength - 1;</b>
+<b class="fc">&nbsp;		return text.substring(start, end + 1);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// BOYER MOORE ALGORITHM
+<b class="fc">&nbsp;	int NO_OF_CHARS = 256;</b>
+&nbsp;
+&nbsp;	// The preprocessing function for Boyer Moore&#39;s
+&nbsp;	// bad character heuristic
+&nbsp;	void badCharHeuristic(char[] str, int size, int badchar[]) {
+&nbsp;
+&nbsp;		// Initialize all occurrences as -1
+<b class="fc">&nbsp;		for (int i = 0; i &lt; NO_OF_CHARS; i++)</b>
+<b class="fc">&nbsp;			badchar[i] = -1;</b>
+&nbsp;
+&nbsp;		// Fill the actual value of last occurrence
+&nbsp;		// of a character (indices of table are ascii and values are index of
+&nbsp;		// occurrence)
+<b class="fc">&nbsp;		for (int i = 0; i &lt; size; i++)</b>
+<b class="fc">&nbsp;			badchar[(int) str[i]] = i;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	/*
+&nbsp;	 * A pattern searching function that uses Bad
+&nbsp;	 * Character Heuristic of Boyer Moore Algorithm
+&nbsp;	 */
+&nbsp;	int BoyerMoore(char txt[], char pat[]) {
+<b class="fc">&nbsp;		int m = pat.length;</b>
+<b class="fc">&nbsp;		int n = txt.length;</b>
+&nbsp;
+<b class="fc">&nbsp;		int badchar[] = new int[NO_OF_CHARS];</b>
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * Fill the bad character array by calling
+&nbsp;		 * the preprocessing function badCharHeuristic()
+&nbsp;		 * for given pattern
+&nbsp;		 */
+<b class="fc">&nbsp;		badCharHeuristic(pat, m, badchar);</b>
+&nbsp;
+<b class="fc">&nbsp;		int s = 0; // s is shift of the pattern with</b>
+&nbsp;					// respect to text
+&nbsp;		// there are n-m+1 potential alignments
+<b class="fc">&nbsp;		while (s &lt;= (n - m)) {</b>
+<b class="fc">&nbsp;			int j = m - 1;</b>
+&nbsp;
+&nbsp;			/*
+&nbsp;			 * Keep reducing index j of pattern while
+&nbsp;			 * characters of pattern and text are
+&nbsp;			 * matching at this shift s
+&nbsp;			 */
+<b class="fc">&nbsp;			while (j &gt;= 0 &amp;&amp; pat[j] == txt[s + j])</b>
+<b class="fc">&nbsp;				j--;</b>
+&nbsp;
+&nbsp;			/*
+&nbsp;			 * If the pattern is present at current
+&nbsp;			 * shift, then index j will become -1 after
+&nbsp;			 * the above loop
+&nbsp;			 */
+<b class="fc">&nbsp;			if (j &lt; 0) {</b>
+<b class="fc">&nbsp;				return s;</b>
+&nbsp;
+&nbsp;				/*
+&nbsp;				 * Shift the pattern so that the next
+&nbsp;				 * character in text aligns with the last
+&nbsp;				 * occurrence of it in pattern.
+&nbsp;				 * The condition s+m &lt; n is necessary for
+&nbsp;				 * the case when pattern occurs at the end
+&nbsp;				 * of text
+&nbsp;				 */
+&nbsp;				// txt[s+m] is character after the pattern in text
+&nbsp;				// s += (s+m &lt; n)? m-badchar[txt[s+m]] : 1;
+&nbsp;
+&nbsp;			} else
+&nbsp;				/*
+&nbsp;				 * Shift the pattern so that the bad character
+&nbsp;				 * in text aligns with the last occurrence of
+&nbsp;				 * it in pattern. The max function is used to
+&nbsp;				 * make sure that we get a positive shift.
+&nbsp;				 * We may get a negative shift if the last
+&nbsp;				 * occurrence of bad character in pattern
+&nbsp;				 * is on the right side of the current
+&nbsp;				 * character.
+&nbsp;				 */
+<b class="fc">&nbsp;				s += max(1, j - badchar[txt[s + j]]);</b>
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int SequenceAlignment(String x, String y, int pxy, int pgap) {
+&nbsp;		int i, j; // initialising variables
+&nbsp;
+<b class="fc">&nbsp;		int m = x.length(); // length of gene1</b>
+<b class="fc">&nbsp;		int n = y.length(); // length of gene2</b>
+&nbsp;
+&nbsp;		// table for storing optimal
+&nbsp;		// substructure answers
+<b class="fc">&nbsp;		int dp[][] = new int[n + m + 1][n + m + 1];</b>
+&nbsp;
+<b class="fc">&nbsp;		for (int[] x1 : dp)</b>
+<b class="fc">&nbsp;			Arrays.fill(x1, 0);</b>
+&nbsp;
+&nbsp;		// initialising the table
+<b class="fc">&nbsp;		for (i = 0; i &lt;= (n + m); i++) {</b>
+<b class="fc">&nbsp;			dp[i][0] = i * pgap;</b>
+<b class="fc">&nbsp;			dp[0][i] = i * pgap;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// calculating the
+&nbsp;		// minimum penalty
+<b class="fc">&nbsp;		for (i = 1; i &lt;= m; i++) {</b>
+<b class="fc">&nbsp;			for (j = 1; j &lt;= n; j++) {</b>
+<b class="fc">&nbsp;				if (x.charAt(i - 1) == y.charAt(j - 1)) {</b>
+<b class="fc">&nbsp;					dp[i][j] = dp[i - 1][j - 1];</b>
+&nbsp;				} else {
+<b class="fc">&nbsp;					dp[i][j] = Math.min(Math.min(dp[i - 1][j - 1] + pxy,</b>
+&nbsp;							dp[i - 1][j] + pgap),
+&nbsp;							dp[i][j - 1] + pgap);
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// Reconstructing the solution
+<b class="fc">&nbsp;		int l = n + m; // maximum possible length</b>
+&nbsp;
+<b class="fc">&nbsp;		i = m;</b>
+<b class="fc">&nbsp;		j = n;</b>
+&nbsp;
+<b class="fc">&nbsp;		int xpos = l;</b>
+<b class="fc">&nbsp;		int ypos = l;</b>
+&nbsp;
+&nbsp;		// Final answers for
+&nbsp;		// the respective strings
+<b class="fc">&nbsp;		int xans[] = new int[l + 1];</b>
+<b class="fc">&nbsp;		int yans[] = new int[l + 1];</b>
+&nbsp;
+<b class="fc">&nbsp;		while (!(i == 0 || j == 0)) {</b>
+<b class="fc">&nbsp;			if (x.charAt(i - 1) == y.charAt(j - 1)) {</b>
+<b class="fc">&nbsp;				xans[xpos--] = (int) x.charAt(i - 1);</b>
+<b class="fc">&nbsp;				yans[ypos--] = (int) y.charAt(j - 1);</b>
+<b class="fc">&nbsp;				i--;</b>
+<b class="fc">&nbsp;				j--;</b>
+<b class="fc">&nbsp;			} else if (dp[i - 1][j - 1] + pxy == dp[i][j]) {</b>
+<b class="fc">&nbsp;				xans[xpos--] = (int) x.charAt(i - 1);</b>
+<b class="fc">&nbsp;				yans[ypos--] = (int) y.charAt(j - 1);</b>
+<b class="fc">&nbsp;				i--;</b>
+<b class="fc">&nbsp;				j--;</b>
+<b class="fc">&nbsp;			} else if (dp[i - 1][j] + pgap == dp[i][j]) {</b>
+<b class="fc">&nbsp;				xans[xpos--] = (int) x.charAt(i - 1);</b>
+<b class="fc">&nbsp;				yans[ypos--] = (int) &#39;_&#39;;</b>
+<b class="fc">&nbsp;				i--;</b>
+<b class="nc">&nbsp;			} else if (dp[i][j - 1] + pgap == dp[i][j]) {</b>
+<b class="nc">&nbsp;				xans[xpos--] = (int) &#39;_&#39;;</b>
+<b class="nc">&nbsp;				yans[ypos--] = (int) y.charAt(j - 1);</b>
+<b class="nc">&nbsp;				j--;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		while (xpos &gt; 0) {</b>
+<b class="fc">&nbsp;			if (i &gt; 0)</b>
+<b class="nc">&nbsp;				xans[xpos--] = (int) x.charAt(--i);</b>
+&nbsp;			else
+<b class="fc">&nbsp;				xans[xpos--] = (int) &#39;_&#39;;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		while (ypos &gt; 0) {</b>
+<b class="fc">&nbsp;			if (j &gt; 0)</b>
+<b class="nc">&nbsp;				yans[ypos--] = (int) y.charAt(--j);</b>
+&nbsp;			else
+<b class="fc">&nbsp;				yans[ypos--] = (int) &#39;_&#39;;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Since we have assumed the
+&nbsp;		// answer to be n+m long,
+&nbsp;		// we need to remove the extra
+&nbsp;		// gaps in the starting id
+&nbsp;		// represents the index from
+&nbsp;		// which the arrays xans,
+&nbsp;		// yans are useful
+<b class="fc">&nbsp;		int id = 1;</b>
+<b class="fc">&nbsp;		for (i = l; i &gt;= 1; i--) {</b>
+<b class="fc">&nbsp;			if ((char) yans[i] == &#39;_&#39; &amp;&amp; (char) xans[i] == &#39;_&#39;) {</b>
+<b class="fc">&nbsp;				id = i + 1;</b>
+<b class="fc">&nbsp;				break;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return dp[m][n];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	boolean WildcardPattern(String str, String pattern,
+&nbsp;			int n, int m) {
+&nbsp;		// empty pattern can only match with
+&nbsp;		// empty string
+<b class="fc">&nbsp;		if (m == 0)</b>
+<b class="nc">&nbsp;			return (n == 0);</b>
+&nbsp;
+&nbsp;		// lookup table for storing results of
+&nbsp;		// subproblems
+<b class="fc">&nbsp;		boolean[][] lookup = new boolean[n + 1][m + 1];</b>
+&nbsp;
+&nbsp;		// initialize lookup table to false
+<b class="fc">&nbsp;		for (int i = 0; i &lt; n + 1; i++)</b>
+<b class="fc">&nbsp;			Arrays.fill(lookup[i], false);</b>
+&nbsp;
+&nbsp;		// empty pattern can match with empty string
+<b class="fc">&nbsp;		lookup[0][0] = true;</b>
+&nbsp;
+&nbsp;		// Only &#39;*&#39; can match with empty string
+<b class="fc">&nbsp;		for (int j = 1; j &lt;= m; j++)</b>
+<b class="fc">&nbsp;			if (pattern.charAt(j - 1) == &#39;*&#39;)</b>
+<b class="fc">&nbsp;				lookup[0][j] = lookup[0][j - 1];</b>
+&nbsp;
+&nbsp;		// fill the table in bottom-up fashion
+<b class="fc">&nbsp;		for (int i = 1; i &lt;= n; i++) {</b>
+<b class="fc">&nbsp;			for (int j = 1; j &lt;= m; j++) {</b>
+&nbsp;				// Two cases if we see a &#39;*&#39;
+&nbsp;				// a) We ignore &#39;*&#39;&#39; character and move
+&nbsp;				// to next character in the pattern,
+&nbsp;				// i.e., &#39;*&#39; indicates an empty
+&nbsp;				// sequence.
+&nbsp;				// b) &#39;*&#39; character matches with ith
+&nbsp;				// character in input
+<b class="fc">&nbsp;				if (pattern.charAt(j - 1) == &#39;*&#39;)</b>
+<b class="fc">&nbsp;					lookup[i][j] = lookup[i][j - 1]</b>
+&nbsp;							|| lookup[i - 1][j];
+&nbsp;
+&nbsp;				// Current characters are considered as
+&nbsp;				// matching in two cases
+&nbsp;				// (a) current character of pattern is &#39;?&#39;
+&nbsp;				// (b) characters actually match
+<b class="fc">&nbsp;				else if (pattern.charAt(j - 1) == &#39;?&#39;</b>
+<b class="fc">&nbsp;						|| str.charAt(i - 1) == pattern.charAt(j - 1))</b>
+<b class="fc">&nbsp;					lookup[i][j] = lookup[i - 1][j - 1];</b>
+&nbsp;
+&nbsp;				// If characters don&#39;t match
+&nbsp;				else
+<b class="fc">&nbsp;					lookup[i][j] = false;</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return lookup[n][m];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int minPalPartition(String str) {
+&nbsp;		// Get the length of the string
+<b class="fc">&nbsp;		int n = str.length();</b>
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * Create two arrays to build the solution
+&nbsp;		 * in bottom up manner
+&nbsp;		 * C[i] = Minimum number of cuts needed for
+&nbsp;		 * palindrome partitioning of substring
+&nbsp;		 * str[0..i]
+&nbsp;		 * P[i][j] = true if substring str[i..j] is
+&nbsp;		 * palindrome, else false
+&nbsp;		 * Note that C[i] is 0 if P[0][i] is true
+&nbsp;		 */
+<b class="fc">&nbsp;		int[] C = new int[n];</b>
+<b class="fc">&nbsp;		boolean[][] P = new boolean[n][n];</b>
+&nbsp;
+&nbsp;		int i, j, k, L; // different looping variables
+&nbsp;
+&nbsp;		// Every substring of length 1 is a palindrome
+<b class="fc">&nbsp;		for (i = 0; i &lt; n; i++) {</b>
+<b class="fc">&nbsp;			P[i][i] = true;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * L is substring length. Build the solution
+&nbsp;		 * in bottom up manner by considering all substrings
+&nbsp;		 * of length starting from 2 to n.
+&nbsp;		 */
+<b class="fc">&nbsp;		for (L = 2; L &lt;= n; L++) {</b>
+&nbsp;			// For substring of length L, set different
+&nbsp;			// possible starting indexes
+<b class="fc">&nbsp;			for (i = 0; i &lt; n - L + 1; i++) {</b>
+<b class="fc">&nbsp;				j = i + L - 1; // Set ending index</b>
+&nbsp;
+&nbsp;				// If L is 2, then we just need to
+&nbsp;				// compare two characters. Else need to
+&nbsp;				// check two corner characters and value
+&nbsp;				// of P[i+1][j-1]
+<b class="fc">&nbsp;				if (L == 2)</b>
+<b class="fc">&nbsp;					P[i][j] = (str.charAt(i) == str.charAt(j));</b>
+&nbsp;				else
+<b class="fc">&nbsp;					P[i][j] = (str.charAt(i) == str.charAt(j)) &amp;&amp; P[i + 1][j - 1];</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		for (i = 0; i &lt; n; i++) {</b>
+<b class="fc">&nbsp;			if (P[0][i] == true)</b>
+<b class="fc">&nbsp;				C[i] = 0;</b>
+&nbsp;			else {
+<b class="fc">&nbsp;				C[i] = Integer.MAX_VALUE;</b>
+<b class="fc">&nbsp;				for (j = 0; j &lt; i; j++) {</b>
+<b class="fc">&nbsp;					if (P[j + 1][i] == true &amp;&amp; 1 + C[j] &lt; C[i])</b>
+<b class="fc">&nbsp;						C[i] = 1 + C[j];</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// Return the min cut value for complete
+&nbsp;		// string. i.e., str[0..n-1]
+<b class="fc">&nbsp;		return C[n - 1];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int LongestRepeatingSubSeq(String str) {
+<b class="fc">&nbsp;		int n = str.length();</b>
+&nbsp;
+&nbsp;		// Create and initialize DP table
+<b class="fc">&nbsp;		int[][] dp = new int[n + 1][n + 1];</b>
+&nbsp;
+&nbsp;		// Fill dp table (similar to LCS loops)
+<b class="fc">&nbsp;		for (int i = 1; i &lt;= n; i++) {</b>
+<b class="fc">&nbsp;			for (int j = 1; j &lt;= n; j++) {</b>
+&nbsp;				// If characters match and indexes are not same
+<b class="fc">&nbsp;				if (str.charAt(i - 1) == str.charAt(j - 1) &amp;&amp; i != j)</b>
+<b class="fc">&nbsp;					dp[i][j] = 1 + dp[i - 1][j - 1];</b>
+&nbsp;
+&nbsp;				// If characters do not match
+&nbsp;				else
+<b class="fc">&nbsp;					dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return dp[n][n];</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int longestPrefixSuffix(String s) {
+<b class="fc">&nbsp;		int n = s.length();</b>
+&nbsp;
+<b class="fc">&nbsp;		int lps[] = new int[n];</b>
+&nbsp;
+&nbsp;		// lps[0] is always 0
+<b class="fc">&nbsp;		lps[0] = 0;</b>
+&nbsp;
+&nbsp;		// length of the previous
+&nbsp;		// longest prefix suffix
+<b class="fc">&nbsp;		int len = 0;</b>
+&nbsp;
+&nbsp;		// the loop calculates lps[i]
+&nbsp;		// for i = 1 to n-1
+<b class="fc">&nbsp;		int i = 1;</b>
+<b class="fc">&nbsp;		while (i &lt; n) {</b>
+<b class="fc">&nbsp;			if (s.charAt(i) == s.charAt(len)) {</b>
+<b class="fc">&nbsp;				len++;</b>
+<b class="fc">&nbsp;				lps[i] = len;</b>
+<b class="fc">&nbsp;				i++;</b>
+&nbsp;			}
+&nbsp;
+&nbsp;			// (pat[i] != pat[len])
+&nbsp;			else {
+&nbsp;				// This is tricky. Consider
+&nbsp;				// the example. AAACAAAA
+&nbsp;				// and i = 7. The idea is
+&nbsp;				// similar to search step.
+<b class="fc">&nbsp;				if (len != 0) {</b>
+<b class="fc">&nbsp;					len = lps[len - 1];</b>
+&nbsp;
+&nbsp;					// Also, note that we do
+&nbsp;					// not increment i here
+&nbsp;				}
+&nbsp;
+&nbsp;				// if (len == 0)
+&nbsp;				else {
+<b class="fc">&nbsp;					lps[i] = 0;</b>
+<b class="fc">&nbsp;					i++;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		int res = lps[n - 1];</b>
+&nbsp;
+&nbsp;		// Since we are looking for
+&nbsp;		// non overlapping parts.
+<b class="fc">&nbsp;		return (res &gt; n / 2) ? n / 2 : res;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// Number of distinct words of size N with at most K contiguous vowels
+&nbsp;	int power(int x, int y, int p) {
+<b class="fc">&nbsp;		int res = 1;</b>
+<b class="fc">&nbsp;		x = x % p;</b>
+&nbsp;
+<b class="fc">&nbsp;		if (x == 0)</b>
+<b class="nc">&nbsp;			return 0;</b>
+&nbsp;
+<b class="fc">&nbsp;		while (y &gt; 0) {</b>
+<b class="fc">&nbsp;			if ((y &amp; 1) != 0)</b>
+<b class="fc">&nbsp;				res = (res * x) % p;</b>
+&nbsp;
+<b class="fc">&nbsp;			y = y &gt;&gt; 1;</b>
+<b class="fc">&nbsp;			x = (x * x) % p;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return res;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int KVowelWords(int N, int K) {
+&nbsp;		int i, j;
+<b class="fc">&nbsp;		int MOD = 1000000007;</b>
+&nbsp;
+&nbsp;		// Array dp to store number of ways
+<b class="fc">&nbsp;		int[][] dp = new int[N + 1][K + 1];</b>
+&nbsp;
+<b class="fc">&nbsp;		int sum = 1;</b>
+<b class="fc">&nbsp;		for (i = 1; i &lt;= N; i++) {</b>
+&nbsp;
+&nbsp;			// dp[i][0] = (dp[i-1][0]+dp[i-1][1]..dp[i-1][k])*21
+<b class="fc">&nbsp;			dp[i][0] = sum * 21;</b>
+<b class="fc">&nbsp;			dp[i][0] %= MOD;</b>
+&nbsp;
+&nbsp;			// Now setting sum to be dp[i][0]
+<b class="fc">&nbsp;			sum = dp[i][0];</b>
+&nbsp;
+<b class="fc">&nbsp;			for (j = 1; j &lt;= K; j++) {</b>
+&nbsp;
+&nbsp;				// If j&gt;i, no ways are possible to create
+&nbsp;				// a string with length i and vowel j
+<b class="fc">&nbsp;				if (j &gt; i)</b>
+<b class="nc">&nbsp;					dp[i][j] = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;				else if (j == i) {</b>
+&nbsp;
+&nbsp;					// If j = i all the character should
+&nbsp;					// be vowel
+<b class="fc">&nbsp;					dp[i][j] = power(5, i, MOD);</b>
+&nbsp;				} else {
+&nbsp;
+&nbsp;					// dp[i][j] relation with dp[i-1][j-1]
+<b class="nc">&nbsp;					dp[i][j] = dp[i - 1][j - 1] * 5;</b>
+&nbsp;				}
+&nbsp;
+<b class="fc">&nbsp;				dp[i][j] %= MOD;</b>
+&nbsp;
+&nbsp;				// Adding dp[i][j] in the sum
+<b class="fc">&nbsp;				sum += dp[i][j];</b>
+<b class="fc">&nbsp;				sum %= MOD;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return sum;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	String leftrotate(String str1, int n) {
+&nbsp;
+&nbsp;		// creating extended string and index for new
+&nbsp;		// rotated string
+<b class="fc">&nbsp;		String temp = str1 + str1;</b>
+<b class="fc">&nbsp;		int l1 = str1.length();</b>
+&nbsp;
+<b class="fc">&nbsp;		String Lfirst = temp.substring(n, n + l1);</b>
+&nbsp;
+&nbsp;		// now returning string
+<b class="fc">&nbsp;		return Lfirst;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	String rightrotate(String str1, int n) {
+<b class="fc">&nbsp;		return leftrotate(str1, str1.length() - n);</b>
+&nbsp;	}
+&nbsp;	// LEFT AND RIGHT ROTATION OF A STRING
+&nbsp;
+&nbsp;	boolean isVowel(char c) {
+<b class="fc">&nbsp;		return (c == &#39;a&#39; || c == &#39;A&#39; || c == &#39;e&#39;</b>
+&nbsp;				|| c == &#39;E&#39; || c == &#39;i&#39; || c == &#39;I&#39;
+&nbsp;				|| c == &#39;o&#39; || c == &#39;O&#39; || c == &#39;u&#39;
+&nbsp;				|| c == &#39;U&#39;);
+&nbsp;	}
+&nbsp;
+&nbsp;	String reverseVowel(String str) {
+&nbsp;		// Start two indexes from two corners
+&nbsp;		// and move toward each other
+<b class="fc">&nbsp;		int i = 0;</b>
+<b class="fc">&nbsp;		int j = str.length() - 1;</b>
+<b class="fc">&nbsp;		char[] str1 = str.toCharArray();</b>
+<b class="fc">&nbsp;		while (i &lt; j) {</b>
+<b class="fc">&nbsp;			if (!isVowel(str1[i])) {</b>
+<b class="fc">&nbsp;				i++;</b>
+<b class="fc">&nbsp;				continue;</b>
+&nbsp;			}
+<b class="fc">&nbsp;			if (!isVowel(str1[j])) {</b>
+<b class="fc">&nbsp;				j--;</b>
+<b class="fc">&nbsp;				continue;</b>
+&nbsp;			}
+&nbsp;
+&nbsp;			// swapping
+<b class="fc">&nbsp;			char t = str1[i];</b>
+<b class="fc">&nbsp;			str1[i] = str1[j];</b>
+<b class="fc">&nbsp;			str1[j] = t;</b>
+&nbsp;
+<b class="fc">&nbsp;			i++;</b>
+<b class="fc">&nbsp;			j--;</b>
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		String str2 = String.copyValueOf(str1);</b>
+<b class="fc">&nbsp;		return str2;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// Horspool BM algorithm pattern searching
+&nbsp;	int repeatedStringMatch(String a, String b) {
+<b class="fc">&nbsp;		StringBuilder text = new StringBuilder(a);</b>
+<b class="fc">&nbsp;		char[] pat = b.toCharArray();</b>
+<b class="fc">&nbsp;		int n = b.length();</b>
+<b class="fc">&nbsp;		if (n == 0)</b>
+<b class="nc">&nbsp;			return 0;</b>
+<b class="fc">&nbsp;		int rep = 1;</b>
+&nbsp;
+<b class="fc">&nbsp;		while (text.length() &lt; n) {</b>
+<b class="fc">&nbsp;			text.append(a);</b>
+<b class="fc">&nbsp;			rep++;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		int m = text.length();</b>
+<b class="fc">&nbsp;		char[] ar = text.toString().toCharArray();</b>
+&nbsp;
+<b class="fc">&nbsp;		int[] shifts = getShifts(b.toCharArray(), n);</b>
+&nbsp;
+<b class="fc">&nbsp;		int i = n - 1;</b>
+&nbsp;
+<b class="fc">&nbsp;		int contendor = horspool(ar, m, n, rep, shifts, pat);</b>
+<b class="fc">&nbsp;		if (contendor &gt; 0)</b>
+<b class="fc">&nbsp;			return contendor;</b>
+&nbsp;
+<b class="fc">&nbsp;		text.append(a);</b>
+<b class="fc">&nbsp;		ar = (text.toString()).toCharArray();</b>
+<b class="fc">&nbsp;		rep++;</b>
+<b class="fc">&nbsp;		m = text.length();</b>
+<b class="fc">&nbsp;		contendor = horspool(ar, m, n, rep, shifts, pat);</b>
+<b class="fc">&nbsp;		if (contendor &gt; 0)</b>
+<b class="fc">&nbsp;			return contendor;</b>
+&nbsp;
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int horspool(char[] ar, int m, int n, int rep, int[] shifts, char[] pat) {
+<b class="fc">&nbsp;		int i = n - 1;</b>
+&nbsp;
+<b class="fc">&nbsp;		while (i &lt; m) {</b>
+<b class="fc">&nbsp;			int k = i;</b>
+<b class="fc">&nbsp;			int j = n - 1;</b>
+&nbsp;
+<b class="fc">&nbsp;			i += shifts[ar[i] - 97];</b>
+<b class="fc">&nbsp;			while (k &gt;= 0 &amp;&amp; j &gt;= 0 &amp;&amp; ar[k--] == pat[j])</b>
+<b class="fc">&nbsp;				j--;</b>
+&nbsp;
+<b class="fc">&nbsp;			if (j &lt; 0)</b>
+<b class="fc">&nbsp;				return rep;</b>
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	int[] getShifts(char[] ar, int m) {
+<b class="fc">&nbsp;		int[] res = new int[26];</b>
+<b class="fc">&nbsp;		Arrays.fill(res, m);</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; m - 1; i++)</b>
+<b class="fc">&nbsp;			res[ar[i] - 97] = m - i - 1;</b>
+&nbsp;
+<b class="fc">&nbsp;		return res;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean dfs(final String word, int length, final boolean[] visited, final Set&lt;String&gt; dictionary) {
+<b class="fc">&nbsp;		if (length == word.length()) {</b>
+<b class="fc">&nbsp;			return true;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (visited[length]) {</b>
+<b class="nc">&nbsp;			return false;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		visited[length] = true;</b>
+&nbsp;
+<b class="fc">&nbsp;		int end = (length == 0) ? word.length() - 1 : word.length();</b>
+<b class="fc">&nbsp;		for (int i = end; i &gt; length; --i) {</b>
+<b class="fc">&nbsp;			String currentSubstring = word.substring(length, i);</b>
+<b class="fc">&nbsp;			if (dictionary.contains(currentSubstring) &amp;&amp; dfs(word, i, visited, dictionary)) {</b>
+<b class="fc">&nbsp;				return true;</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public List&lt;String&gt; findAllConcatenatedWordsInADict(String[] words) {
+<b class="fc">&nbsp;		final Set&lt;String&gt; dictionary = new HashSet&lt;&gt;(Arrays.asList(words));</b>
+<b class="fc">&nbsp;		final List&lt;String&gt; answer = new ArrayList&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;		for (final String word : words) {</b>
+<b class="fc">&nbsp;			final int length = word.length();</b>
+<b class="fc">&nbsp;			final boolean[] visited = new boolean[length];</b>
+&nbsp;
+<b class="fc">&nbsp;			if (dfs(word, 0, visited, dictionary)) {</b>
+<b class="fc">&nbsp;				answer.add(word);</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return answer;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean wordBreak1(String s, List&lt;String&gt; wordDict) {
+<b class="fc">&nbsp;		Map&lt;String, Boolean&gt; dp = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;		Set&lt;String&gt; dict = new HashSet&lt;&gt;(wordDict);</b>
+<b class="fc">&nbsp;		return util1(0, s.length() - 1, s, dict, dp);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean util1(int i, int j, String s, Set&lt;String&gt; dict, Map&lt;String, Boolean&gt; dp) {
+<b class="fc">&nbsp;		if (i &gt; j) {</b>
+<b class="fc">&nbsp;			return true;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		String key = i + &quot;|&quot; + j;</b>
+<b class="fc">&nbsp;		if (dp.containsKey(key)) {</b>
+<b class="fc">&nbsp;			return dp.get(key);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		if (dict.contains(s.substring(i, j + 1))) {</b>
+<b class="fc">&nbsp;			dp.put(key, true);</b>
+<b class="fc">&nbsp;			return true;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		boolean ret = false;</b>
+<b class="fc">&nbsp;		for (int br = i; br &lt;= j - 1; br++) {</b>
+<b class="fc">&nbsp;			boolean cur = util1(i, br, s, dict, dp) &amp;&amp; util1(br + 1, j, s, dict, dp);</b>
+<b class="fc">&nbsp;			ret = ret || cur;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		dp.put(key, ret);</b>
+<b class="fc">&nbsp;		return ret;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public List&lt;String&gt; wordBreak2(String s, List&lt;String&gt; wordDict) {
+<b class="fc">&nbsp;		Map&lt;String, List&lt;String&gt;&gt; dp = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;		Set&lt;String&gt; dict = new HashSet&lt;&gt;(wordDict);</b>
+&nbsp;
+<b class="fc">&nbsp;		return util2(0, s.length() - 1, s, dict, dp);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public List&lt;String&gt; util2(int i, int j, String s, Set&lt;String&gt; dict, Map&lt;String, List&lt;String&gt;&gt; dp) {
+<b class="fc">&nbsp;		if (i &gt; j) {</b>
+<b class="nc">&nbsp;			List&lt;String&gt; ret = new ArrayList&lt;&gt;();</b>
+<b class="nc">&nbsp;			ret.add(&quot;&quot;); // Add an empty string to indicate a valid break</b>
+<b class="nc">&nbsp;			return ret;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		String key = i + &quot;|&quot; + j;</b>
+<b class="fc">&nbsp;		if (dp.containsKey(key)) {</b>
+<b class="fc">&nbsp;			return dp.get(key);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		Set&lt;String&gt; retList = new HashSet&lt;&gt;();</b>
+&nbsp;
+<b class="fc">&nbsp;		for (int br = i; br &lt;= j - 1; br++) {</b>
+<b class="fc">&nbsp;			List&lt;String&gt; left = util2(i, br, s, dict, dp);</b>
+<b class="fc">&nbsp;			List&lt;String&gt; right = util2(br + 1, j, s, dict, dp);</b>
+&nbsp;
+<b class="fc">&nbsp;			if (!left.isEmpty() &amp;&amp; !right.isEmpty()) {</b>
+<b class="fc">&nbsp;				for (String l : left) {</b>
+<b class="fc">&nbsp;					for (String r : right) {</b>
+<b class="fc">&nbsp;						String toAdd = l + &quot; &quot; + r;</b>
+<b class="fc">&nbsp;						retList.add(toAdd);</b>
+<b class="fc">&nbsp;					}</b>
+<b class="fc">&nbsp;				}</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		List&lt;String&gt; ret = new ArrayList&lt;&gt;(retList);</b>
+&nbsp;
+&nbsp;		// Check if the substring from i to j is a valid word in the dictionary
+<b class="fc">&nbsp;		if (dict.contains(s.substring(i, j + 1))) {</b>
+<b class="fc">&nbsp;			ret.add(s.substring(i, j + 1));</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		dp.put(key, ret);</b>
+<b class="fc">&nbsp;		return ret;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public int atMostNGivenDigitSet(String[] D, int N) {
+<b class="fc">&nbsp;		int k = D.length;</b>
+<b class="fc">&nbsp;		int[] digits = new int[k];</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; k; i++) {</b>
+<b class="fc">&nbsp;			digits[i] = Integer.parseInt(D[i]);</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		int cnt = 0;</b>
+<b class="fc">&nbsp;		String s = String.valueOf(N);</b>
+<b class="fc">&nbsp;		int len = s.length();</b>
+<b class="fc">&nbsp;		int[] rates = new int[len];</b>
+<b class="fc">&nbsp;		rates[0] = 1;</b>
+&nbsp;
+&nbsp;		// Calculate rates for less digits: k + k^2 + .. + k^(len-1)
+<b class="fc">&nbsp;		for (int i = 0; i &lt; len - 1; i++) {</b>
+<b class="fc">&nbsp;			rates[i + 1] = rates[i] * k;</b>
+<b class="fc">&nbsp;			cnt += rates[i + 1];</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// Add count for same digits
+<b class="fc">&nbsp;		cnt += helper(digits, rates, s);</b>
+<b class="fc">&nbsp;		return cnt;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private int helper(int[] digits, int[] rates, String s) {
+<b class="fc">&nbsp;		if (s.length() == 0) {</b>
+<b class="nc">&nbsp;			return 1;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		int n = s.charAt(0) - &#39;0&#39;;</b>
+<b class="fc">&nbsp;		int cnt = countLT(digits, n) * rates[s.length() - 1];</b>
+&nbsp;
+<b class="fc">&nbsp;		if (exists(digits, n)) {</b>
+<b class="fc">&nbsp;			cnt += helper(digits, rates, s.substring(1));</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		return cnt;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private int countLT(int[] digits, int n) {
+<b class="fc">&nbsp;		int cnt = 0;</b>
+<b class="fc">&nbsp;		for (int d : digits) {</b>
+<b class="fc">&nbsp;			if (d &lt; n) {</b>
+<b class="fc">&nbsp;				cnt++;</b>
+&nbsp;			} else {
+&nbsp;				break;
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return cnt;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean exists(int[] digits, int n) {
+<b class="fc">&nbsp;		for (int d : digits) {</b>
+<b class="fc">&nbsp;			if (d == n) {</b>
+<b class="fc">&nbsp;				return true;</b>
+&nbsp;			}
+<b class="fc">&nbsp;			if (d &gt; n) {</b>
+<b class="fc">&nbsp;				break;</b>
+&nbsp;			}
+&nbsp;		}
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public String reverseStr(String str) {
+<b class="fc">&nbsp;		StringBuilder sb = new StringBuilder(str);</b>
+<b class="fc">&nbsp;		return sb.reverse().toString();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean isPalindrome(String s) {
+<b class="fc">&nbsp;		int i = 0;</b>
+<b class="fc">&nbsp;		int j = s.length() - 1;</b>
+<b class="fc">&nbsp;		while (i &lt;= j) {</b>
+<b class="fc">&nbsp;			if (s.charAt(i) != s.charAt(j)) {</b>
+<b class="fc">&nbsp;				return false;</b>
+&nbsp;			}
+<b class="fc">&nbsp;			i++;</b>
+<b class="fc">&nbsp;			j--;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return true;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public List&lt;List&lt;Integer&gt;&gt; palindromePairs(String[] words) {
+<b class="fc">&nbsp;		List&lt;List&lt;Integer&gt;&gt; res = new ArrayList&lt;List&lt;Integer&gt;&gt;();</b>
+<b class="fc">&nbsp;		if (words == null || words.length == 0) {</b>
+<b class="nc">&nbsp;			return res;</b>
+&nbsp;		}
+&nbsp;		// build the map save the key-val pairs: String - idx
+<b class="fc">&nbsp;		HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; words.length; i++) {</b>
+<b class="fc">&nbsp;			map.put(words[i], i);</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		// special cases: &quot;&quot; can be combine with any palindrome string
+<b class="fc">&nbsp;		if (map.containsKey(&quot;&quot;)) {</b>
+<b class="fc">&nbsp;			int blankIdx = map.get(&quot;&quot;);</b>
+<b class="fc">&nbsp;			for (int i = 0; i &lt; words.length; i++) {</b>
+<b class="fc">&nbsp;				if (isPalindrome(words[i])) {</b>
+<b class="fc">&nbsp;					if (i == blankIdx)</b>
+<b class="fc">&nbsp;						continue;</b>
+<b class="fc">&nbsp;					res.add(Arrays.asList(blankIdx, i));</b>
+<b class="fc">&nbsp;					res.add(Arrays.asList(i, blankIdx));</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// find all string and reverse string pairs
+<b class="fc">&nbsp;		for (int i = 0; i &lt; words.length; i++) {</b>
+<b class="fc">&nbsp;			String cur_r = reverseStr(words[i]);</b>
+<b class="fc">&nbsp;			if (map.containsKey(cur_r)) {</b>
+<b class="fc">&nbsp;				int found = map.get(cur_r);</b>
+<b class="fc">&nbsp;				if (found == i)</b>
+<b class="fc">&nbsp;					continue;</b>
+<b class="fc">&nbsp;				res.add(Arrays.asList(i, found));</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;
+&nbsp;		// find the pair s1, s2 that
+&nbsp;		// case1 : s1[0:cut] is palindrome and s1[cut+1:] = reverse(s2) =&gt; (s2, s1)
+&nbsp;		// case2 : s1[cut+1:] is palindrome and s1[0:cut] = reverse(s2) =&gt; (s1, s2)
+<b class="fc">&nbsp;		for (int i = 0; i &lt; words.length; i++) {</b>
+<b class="fc">&nbsp;			String cur = words[i];</b>
+<b class="fc">&nbsp;			for (int cut = 1; cut &lt; cur.length(); cut++) {</b>
+<b class="fc">&nbsp;				if (isPalindrome(cur.substring(0, cut))) {</b>
+<b class="fc">&nbsp;					String cut_r = reverseStr(cur.substring(cut));</b>
+<b class="fc">&nbsp;					if (map.containsKey(cut_r)) {</b>
+<b class="fc">&nbsp;						int found = map.get(cut_r);</b>
+<b class="fc">&nbsp;						if (found == i)</b>
+<b class="nc">&nbsp;							continue;</b>
+<b class="fc">&nbsp;						res.add(Arrays.asList(found, i));</b>
+&nbsp;					}
+&nbsp;				}
+<b class="fc">&nbsp;				if (isPalindrome(cur.substring(cut))) {</b>
+<b class="fc">&nbsp;					String cut_r = reverseStr(cur.substring(0, cut));</b>
+<b class="fc">&nbsp;					if (map.containsKey(cut_r)) {</b>
+<b class="nc">&nbsp;						int found = map.get(cut_r);</b>
+<b class="nc">&nbsp;						if (found == i)</b>
+<b class="nc">&nbsp;							continue;</b>
+<b class="nc">&nbsp;						res.add(Arrays.asList(i, found));</b>
+&nbsp;					}
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;		// Collections.sort(res, Comparator.comparing(list -&gt; list.get(0)));
+<b class="fc">&nbsp;		return res;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private boolean empty(int[] freq) {
+<b class="fc">&nbsp;		for (int f : freq)</b>
+<b class="fc">&nbsp;			if (f &gt; 0)</b>
+<b class="fc">&nbsp;				return false;</b>
+<b class="fc">&nbsp;		return true;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	private String toString(int[] freq) {
+<b class="fc">&nbsp;		StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;		char c = &#39;a&#39;;</b>
+<b class="fc">&nbsp;		for (int f : freq) {</b>
+<b class="fc">&nbsp;			while (f-- &gt; 0)</b>
+<b class="fc">&nbsp;				sb.append(c);</b>
+<b class="fc">&nbsp;			c++;</b>
+&nbsp;		}
+<b class="fc">&nbsp;		return sb.toString();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public int minStickers(String[] stickers, String target) {
+&nbsp;		// Optimization 1: Maintain frequency only for characters present in target
+<b class="fc">&nbsp;		int[] targetNaiveCount = new int[26];</b>
+<b class="fc">&nbsp;		for (char c : target.toCharArray())</b>
+<b class="fc">&nbsp;			targetNaiveCount[c - &#39;a&#39;]++;</b>
+<b class="fc">&nbsp;		int[] index = new int[26];</b>
+<b class="fc">&nbsp;		int N = 0; // no of distinct characters in target</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; 26; i++)</b>
+<b class="fc">&nbsp;			index[i] = targetNaiveCount[i] &gt; 0 ? N++ : -1;</b>
+<b class="fc">&nbsp;		int[] targetCount = new int[N];</b>
+<b class="fc">&nbsp;		int t = 0;</b>
+<b class="fc">&nbsp;		for (int c : targetNaiveCount)</b>
+<b class="fc">&nbsp;			if (c &gt; 0) {</b>
+<b class="fc">&nbsp;				targetCount[t++] = c;</b>
+&nbsp;			}
+<b class="fc">&nbsp;		int[][] stickersCount = new int[stickers.length][N];</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; stickers.length; i++) {</b>
+<b class="fc">&nbsp;			for (char c : stickers[i].toCharArray()) {</b>
+<b class="fc">&nbsp;				int j = index[c - &#39;a&#39;];</b>
+<b class="fc">&nbsp;				if (j &gt;= 0)</b>
+<b class="fc">&nbsp;					stickersCount[i][j]++;</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;		// Optimization 2: Remove stickers dominated by some other sticker
+<b class="fc">&nbsp;		int start = 0;</b>
+<b class="fc">&nbsp;		for (int i = 0; i &lt; stickers.length; i++) {</b>
+<b class="fc">&nbsp;			for (int j = start; j &lt; stickers.length; j++)</b>
+<b class="fc">&nbsp;				if (j != i) {</b>
+<b class="fc">&nbsp;					int k = 0;</b>
+<b class="fc">&nbsp;					while (k &lt; N &amp;&amp; stickersCount[i][k] &lt;= stickersCount[j][k])</b>
+<b class="fc">&nbsp;						k++;</b>
+<b class="fc">&nbsp;					if (k == N) {</b>
+<b class="fc">&nbsp;						int[] tmp = stickersCount[i];</b>
+<b class="fc">&nbsp;						stickersCount[i] = stickersCount[start];</b>
+<b class="fc">&nbsp;						stickersCount[start++] = tmp;</b>
+<b class="fc">&nbsp;						break;</b>
+&nbsp;					}
+&nbsp;				}
+&nbsp;		}
+&nbsp;		// Perform BFS with target as source and an empty string as destination
+<b class="fc">&nbsp;		Queue&lt;int[]&gt; Q = new LinkedList&lt;&gt;();</b>
+<b class="fc">&nbsp;		Set&lt;String&gt; visited = new HashSet&lt;&gt;();</b>
+<b class="fc">&nbsp;		Q.add(targetCount);</b>
+<b class="fc">&nbsp;		int steps = 0;</b>
+<b class="fc">&nbsp;		while (!Q.isEmpty()) {</b>
+<b class="fc">&nbsp;			steps++;</b>
+<b class="fc">&nbsp;			int size = Q.size();</b>
+<b class="fc">&nbsp;			while (size-- &gt; 0) {</b>
+<b class="fc">&nbsp;				int[] freq = Q.poll();</b>
+<b class="fc">&nbsp;				String cur = toString(freq);</b>
+<b class="fc">&nbsp;				if (visited.add(cur)) {</b>
+&nbsp;					// Optimization 3: Only use stickers that are capable of removing first
+&nbsp;					// character from current string
+<b class="fc">&nbsp;					int first = cur.charAt(0) - &#39;a&#39;;</b>
+<b class="fc">&nbsp;					for (int i = start; i &lt; stickers.length; i++)</b>
+<b class="fc">&nbsp;						if (stickersCount[i][first] != 0) {</b>
+<b class="fc">&nbsp;							int[] next = freq.clone();</b>
+<b class="fc">&nbsp;							for (int j = 0; j &lt; N; j++)</b>
+<b class="fc">&nbsp;								next[j] = Math.max(next[j] - stickersCount[i][j], 0);</b>
+<b class="fc">&nbsp;							if (empty(next))</b>
+<b class="fc">&nbsp;								return steps;</b>
+<b class="fc">&nbsp;							Q.add(next);</b>
+&nbsp;						}
+&nbsp;				}
+<b class="fc">&nbsp;			}</b>
+<b class="fc">&nbsp;		}</b>
+<b class="fc">&nbsp;		return -1;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public int kSimilarity(String s1, String tar) {
+<b class="fc">&nbsp;		Queue&lt;String&gt; q = new ArrayDeque&lt;&gt;();</b>
+<b class="fc">&nbsp;		q.add(s1);</b>
+&nbsp;
+<b class="fc">&nbsp;		int lvl = 0;</b>
+<b class="fc">&nbsp;		while (q.size() &gt; 0) {</b>
+<b class="fc">&nbsp;			int size = q.size();</b>
+<b class="fc">&nbsp;			while (size-- &gt; 0) {</b>
+<b class="fc">&nbsp;				String s = q.remove();</b>
+<b class="fc">&nbsp;				if (s.equals(tar))</b>
+<b class="nc">&nbsp;					return lvl;</b>
+&nbsp;
+<b class="fc">&nbsp;				int i = 0;</b>
+<b class="fc">&nbsp;				while (s.charAt(i) == tar.charAt(i))</b>
+<b class="fc">&nbsp;					i++;</b>
+&nbsp;
+<b class="fc">&nbsp;				int j = i;</b>
+&nbsp;
+<b class="fc">&nbsp;				while (j &lt; s.length()) {</b>
+<b class="fc">&nbsp;					if (s.charAt(j) == tar.charAt(i) &amp;&amp; tar.charAt(j) != s.charAt(j)) {</b>
+<b class="fc">&nbsp;						StringBuilder sb = new StringBuilder(s);</b>
+<b class="fc">&nbsp;						sb.setCharAt(i, s.charAt(j));</b>
+<b class="fc">&nbsp;						sb.setCharAt(j, s.charAt(i));</b>
+&nbsp;
+&nbsp;						// A small optimization.
+<b class="fc">&nbsp;						if (sb.toString().equals(tar))</b>
+<b class="fc">&nbsp;							return lvl + 1;</b>
+&nbsp;
+<b class="fc">&nbsp;						q.add(sb.toString());</b>
+&nbsp;					}
+<b class="fc">&nbsp;					j++;</b>
+&nbsp;				}
+<b class="fc">&nbsp;			}</b>
+<b class="fc">&nbsp;			lvl++;</b>
+<b class="fc">&nbsp;		}</b>
+<b class="nc">&nbsp;		return lvl;</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	// Driver code to test above
+&nbsp;	public static void main(String args[]) {
+&nbsp;
+<b class="nc">&nbsp;	}</b>
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-11-24 17:00</div>
+</div>
+</body>
+</html>

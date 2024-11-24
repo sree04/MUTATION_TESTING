@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="st.AppTest" time="0.282" tests="32" errors="0" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="21"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main\target\test-classes;C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main\target\classes;C:\Users\DELL\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DELL\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Asia/Calcutta"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="21"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="IN"/>
+    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-21\bin"/>
+    <property name="sun.java.command" value="C:\Users\DELL\AppData\Local\Temp\surefire16311881520861883050\surefirebooter4109376783135954014.jar C:\Users\DELL\AppData\Local\Temp\surefire16311881520861883050 2024-11-24T19-19-23_881-jvmRun1 surefire13055895969631207073tmp surefire_01999915649279310847tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main\target\test-classes;C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main\target\classes;C:\Users\DELL\.m2\repository\junit\junit\4.11\junit-4.11.jar;C:\Users\DELL\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\DELL"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2023-09-19"/>
+    <property name="java.home" value="C:\Program Files\Java\jdk-21"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main"/>
+    <property name="java.vm.compressedOopsMode" value="32-bit"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\DELL\AppData\Local\Temp\surefire16311881520861883050\surefirebooter4109376783135954014.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="21+35-LTS-2513"/>
+    <property name="user.name" value="DELL"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\DELL\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\DELL\AppData\Local\Temp\"/>
+    <property name="idea.version" value="2023.3.5"/>
+    <property name="java.version" value="21"/>
+    <property name="user.dir" value="C:\Users\DELL\Desktop\Mutation-Testing-Project-main\Mutation-Testing-Project-main"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Program Files\Java\jdk-21\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\MinGW\bin;C:\Program Files\Java\jdk-21\bin;C:\Program Files\MySQL\MySQL Server 8.2\bin;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Server 8.2\bin;C:\Program Files\MySQL\MySQL Server 8.2\bin;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\Git LFS;C:\Users\DELL\Downloads\apache-maven-3.9.6\bin;C:\Program Files\Java\jdk-21;C:\Program Files\Cloudflare\Cloudflare WARP\;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;C:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2023.2.3\bin;C:\Users\DELL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\DELL\AppData\Roaming\npm;C:\Users\DELL\AppData\Local\GitHubDesktop\bin;C:\Program Files\JetBrains\IntelliJ IDEA 2023.3.5\bin;C:\Users\DELL\AppData\Local\JetBrains\Toolbox\scripts;C:\Program Files\Java\jdk-21\bin;;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="21+35-LTS-2513"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="65.0"/>
+  </properties>
+  <testcase name="TestZAlgorithm" classname="st.AppTest" time="0.01"/>
+  <testcase name="testAtMostNGivenDigitSet" classname="st.AppTest" time="0"/>
+  <testcase name="TestmaxCommStr" classname="st.AppTest" time="0"/>
+  <testcase name="LinearTargetNotFound" classname="st.AppTest" time="0"/>
+  <testcase name="testFindAllConcatenatedWordsInADict" classname="st.AppTest" time="0"/>
+  <testcase name="TestEditDistance" classname="st.AppTest" time="0"/>
+  <testcase name="TestRabinKarp" classname="st.AppTest" time="0"/>
+  <testcase name="TestLongestCommonPrefix" classname="st.AppTest" time="0"/>
+  <testcase name="TestminPalPartition" classname="st.AppTest" time="0"/>
+  <testcase name="TestpalindromePairs" classname="st.AppTest" time="0.001"/>
+  <testcase name="TestLongestPrefixSuffix" classname="st.AppTest" time="0"/>
+  <testcase name="LinearTargetFound" classname="st.AppTest" time="0"/>
+  <testcase name="TestminStickers" classname="st.AppTest" time="0.001"/>
+  <testcase name="TestKMPAlgorithm" classname="st.AppTest" time="0"/>
+  <testcase name="TestLongestRepeatingSubSeq" classname="st.AppTest" time="0"/>
+  <testcase name="TestLongestPalindromicSubstring" classname="st.AppTest" time="0.001"/>
+  <testcase name="TestLongestPalindromicSubsequence" classname="st.AppTest" time="0.223"/>
+  <testcase name="TestReverseVowel" classname="st.AppTest" time="0.001"/>
+  <testcase name="TestLCS" classname="st.AppTest" time="0"/>
+  <testcase name="TestLRR" classname="st.AppTest" time="0"/>
+  <testcase name="TestLVP" classname="st.AppTest" time="0"/>
+  <testcase name="testWordBreak1" classname="st.AppTest" time="0.004"/>
+  <testcase name="testWordBreak2" classname="st.AppTest" time="0.002"/>
+  <testcase name="TestKVowelWords" classname="st.AppTest" time="0"/>
+  <testcase name="TestkSimilarity" classname="st.AppTest" time="0"/>
+  <testcase name="TestBoyerMoore" classname="st.AppTest" time="0.001"/>
+  <testcase name="testBinarySearchFound" classname="st.AppTest" time="0"/>
+  <testcase name="TestWildcardPattern" classname="st.AppTest" time="0"/>
+  <testcase name="testBinarySearchNotFound" classname="st.AppTest" time="0"/>
+  <testcase name="TestSequenceAlignment" classname="st.AppTest" time="0"/>
+  <testcase name="TestRepeatedStringMatch" classname="st.AppTest" time="0"/>
+  <testcase name="TestShortestCommonSequence" classname="st.AppTest" time="0"/>
+</testsuite>
